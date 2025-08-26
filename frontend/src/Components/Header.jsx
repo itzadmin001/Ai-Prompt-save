@@ -80,7 +80,7 @@ function Header() {
                 {/* Desktop Menu */}
                 <ul className="md:flex hidden items-center gap-6">
                     {menu.map((item, i) => (
-                        <Link to={item.path}
+                        <Link
                             onClick={item.onclick ? item.onclick : undefined}
                             key={i}
                         >
