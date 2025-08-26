@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --model-div-bg: #ffffff;
+    --Button-bg-color: #000000;
+    --Button-text-color: #ffffff;
+    --faq-text-color: #ffffff;
+    --faq-bg-color: #000000;
+    --Prompt-div-bg: #E5E5E5;
+    --Prompt-card-bg: #FFFFFF;
+
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --model-div-bg: #29292994;
+    --Button-bg-color: #ffffff;
+    --Button-text-color: #121212;
+    --faq-text-color: #000000;
+    --faq-bg-color: #ffffff;
+    --Prompt-div-bg: #29292994;
+    --Prompt-card-bg: #262626;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    user-select: none;
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slide-down 0.3s ease forwards;
+}
+
+@keyframes scaleUp {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-scale-up {
+    animation: scaleUp 0.3s ease-out;
+}
