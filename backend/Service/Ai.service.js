@@ -6,12 +6,25 @@ const ai = new GoogleGenAI({
 });;
 
 async function GenrateResponse(prompt) {
+
+    const finalPrompt = `Answer in max 100 characters. Be concise.\n\n${prompt}`
+
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: prompt,
+        contents: finalPrompt,
+        generationConfig: {
+            maxOutputTokens: 20
+        }
     });
-    console.log(response.text);
-    return response.text;
+    let text = response.text;
+
+    if (text.length > 300) {
+        text = text.slice(0, 100);
+    }
+
+    console.log(text);
+    return text;
+
 }
 
 module.exports = { GenrateResponse }

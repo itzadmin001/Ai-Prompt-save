@@ -136,7 +136,7 @@ function Dashboard() {
             color: "var(--text-color)",
 
         }}>
-            <div className="w-full min-h-full flex" >
+            <div className="w-full min-h-full flex z-20" >
                 {/* LEFT SIDEBAR */}
                 <div style={{
                     background: "var(--bg-color)",
@@ -426,7 +426,7 @@ function Dashboard() {
                             </div>
                         </div>
                         {CreatePromptDiv && <CreatePrompt onClose={() => SetcreatPromptDiv(false)} SetcreatPromptDiv={SetcreatPromptDiv} />}
-                        <div className="px-4 grid items-center md:justify-center 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-4">
+                        <div className="px-4 grid lg:grid-cols-3 sm:grid-cols-2  items-center justify-center gap-4">
                             {
                                 promptsToShow && promptsToShow.length > 0 ? (
                                     promptsToShow.map((item, i) => (

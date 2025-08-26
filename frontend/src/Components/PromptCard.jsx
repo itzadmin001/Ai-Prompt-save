@@ -4,6 +4,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { FiX, FiCopy, FiCheck } from "react-icons/fi";
 import { MdDriveFileRenameOutline, MdOutlineDriveFileMoveRtl } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
+import { FaShareSquare } from "react-icons/fa";
 import { FaRegFolder } from "react-icons/fa";
 import axios from "axios";
 import { MainContext } from "../ContextMain";
@@ -16,7 +17,8 @@ function PromptCard({ data, User }) {
     const [BsThreeDotsMenu, SetBsThreeDotsMenu] = useState(false)
     const [MoveFolder, SetMoveFolder] = useState(false)
     const [isRenaming, setIsRenaming] = useState(false);
-
+    const [shareLink, setShareLink] = useState(null);
+    const [copiedLink, setCopiedLink] = useState(false);
 
     // Disable body scroll when modal is open
     useEffect(() => {
@@ -91,6 +93,35 @@ function PromptCard({ data, User }) {
             }).catch((err) => {
             })
     }
+
+
+    const UrlShareHandler = (id) => {
+
+        axios.get(backendUrl + `/share/${id}`, {
+            withCredentials: true
+        })
+            .then((success) => {
+                setShareLink(success.data.link);
+                console.log(success)
+                notify(success.data.message, "success")
+            }).catch((err) => {
+                console.log(err)
+            })
+
+    }
+
+    const copyToClipboard = () => {
+        if (shareLink) {
+            navigator.clipboard.writeText(shareLink);
+            setCopiedLink(true);
+            setTimeout(() => {
+                setCopiedLink(false)
+                setShareLink(null)
+
+            }
+                , 200);
+        }
+    };
 
     return (
         <>
@@ -200,7 +231,33 @@ function PromptCard({ data, User }) {
                         </span>
                     ))}
                 </div>
+                <div className="w-full flex flex-col items-center  justify-center">
+                    {shareLink && (
+                        // Overlay for background blur
+                        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-90">
+                            {/* Centered Modal Box */}
+                            <div className="bg-white p-4 rounded-xl shadow-lg w-[300px] flex flex-col items-center justify-center gap-4">
+                                <p className="text-center break-words text-sm font-medium w-full">
+                                    Share Link:
+                                    <br />
+                                    <span className="text-blue-700">{shareLink}</span>
+                                </p>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        SetOpenPrompt(false);
+                                        copyToClipboard();
+                                    }}
+                                    className="py-2 px-4 bg-blue-800 hover:bg-blue-600 duration-200 text-white rounded-lg cursor-pointer w-full text-center"
+                                >
+                                    {copied ? "Copied!" : "Copy"}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
+
 
             {/* MODAL */}
             {OpenPrompt && (
@@ -213,15 +270,23 @@ function PromptCard({ data, User }) {
                         color: "var(--text-color)"
                     }} className=" w-[500px] max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg animate-scale-up">
                         {/* Header */}
-                        <div className="flex justify-between items-center mb-4">
+                        <div className=" relative flex justify-between items-center mb-4">
                             <h2 className="text-xl font-semibold">Prompt Details</h2>
-                            <button
-                                onClick={() => SetOpenPrompt(false)}
-                                className="p-1 hover:bg-gray-200 rounded-full cursor-pointer"
-                            >
-                                <FiX size={20} />
-                            </button>
+                            <div className=" flex items-center gap-2">
+                                <FaShareSquare className=" cursor-pointer" onClick={(e) => {
+                                    e.stopPropagation()
+                                    SetOpenPrompt(false)
+                                    UrlShareHandler(data._id)
+                                }} />
+                                <button
+                                    onClick={() => SetOpenPrompt(false)}
+                                    className="p-1 hover:bg-gray-200 rounded-full cursor-pointer"
+                                >
+                                    <FiX size={20} />
+                                </button>
+                            </div>
                         </div>
+
 
                         {/* Prompt Section */}
                         <div className="mb-4">

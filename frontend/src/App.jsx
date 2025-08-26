@@ -8,6 +8,7 @@ import { MainContext } from './ContextMain'
 import Dashboard from './Pages/Dashboard'
 import axios from 'axios'
 import { connectSocket } from './Sockets/Socket'
+import SharePrompt from './Components/SharePrompt'
 
 
 function App() {
@@ -56,6 +57,10 @@ function App() {
     {
       path: "/dashboard",
       element: <Dashboard />
+    },
+    {
+      path: "/share/:id",
+      element: <SharePrompt />
     }
   ])
 

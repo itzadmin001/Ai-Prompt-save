@@ -11,6 +11,7 @@ function ContextMain(props) {
     const [rotating, setRotating] = useState(false);
     const [User, SetUser] = useState(null)
     const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const [shareLink, setShareLink] = useState(null);
     const notify = (msg, flag) => toast(msg, { type: flag });
 
 
@@ -47,6 +48,8 @@ function ContextMain(props) {
             setRotating(false);
         }, 300);
     };
+
+
 
 
 
