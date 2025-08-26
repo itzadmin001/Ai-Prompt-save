@@ -24,6 +24,7 @@ function Header() {
         {
             name: "Register",
             path: "/register",
+            onclick: () => Navigate("/register")
         },
     ];
 
